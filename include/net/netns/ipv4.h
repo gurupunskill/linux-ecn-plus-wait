@@ -92,6 +92,11 @@ struct netns_ipv4 {
 
 	struct local_ports ip_local_ports;
 
+	// Adding flags for ECN+ and ECN+/Wait
+
+	int sysctl_tcp_ecn_plus;
+	int sysctl_tcp_ecn_plus_wait;
+
 	int sysctl_tcp_ecn;
 	int sysctl_tcp_ecn_fallback;
 
