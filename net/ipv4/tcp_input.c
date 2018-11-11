@@ -5785,7 +5785,18 @@ static int tcp_rcv_synsent_state_process(struct sock *sk, struct sk_buff *skb,
 		 */
 
 		tcp_ecn_rcv_synack(tp, th);
-
+		
+		// Nihal was here
+		// For ECN+ and ECN+/Wait,
+		// We have to check the ECT codepoint for the 
+		// SYN/ACK packets and see whether ECE is set and
+		// if so, reset cwnd to initial cwnd
+		
+		if(tp->ecn_flags & TCP_ECN_PLUS_OK){ 		
+		   	if(INET_ECN_is_ce(icsk->tos))
+				tp->snd_cwnd = TCP_INIT_CWND;
+		}
+		
 		tcp_init_wl(tp, TCP_SKB_CB(skb)->seq);
 		tcp_ack(sk, skb, FLAG_SLOWPATH);
 
