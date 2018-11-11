@@ -5791,9 +5791,10 @@ static int tcp_rcv_synsent_state_process(struct sock *sk, struct sk_buff *skb,
 		// We have to check the ECT codepoint for the 
 		// SYN/ACK packets and see whether ECE is set and
 		// if so, reset cwnd to initial cwnd
+		// The ACK has to be sent ASAP
 		
-		if(tp->ecn_flags & TCP_ECN_PLUS_OK){ 		
-		   	if(INET_ECN_is_ce(icsk->tos))
+		if((tp->ecn_flags & TCP_ECN_PLUS_OK) && (tp->ecn_flags & TCP_ECN_OK)){ 		
+		   	if(INET_ECN_is_ce(TCP_SKB_CB(skb)->ip_dsfield))
 				tp->snd_cwnd = TCP_INIT_CWND;
 		}
 		
