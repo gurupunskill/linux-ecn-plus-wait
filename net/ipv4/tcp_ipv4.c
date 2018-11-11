@@ -2522,6 +2522,7 @@ static int __net_init tcp_sk_init(struct net *net)
 	net->ipv4.sysctl_tcp_ecn = 2;
 	net->ipv4.sysctl_tcp_ecn_fallback = 1;
 
+	// GURU_WAS_HERE
 	// Initialisers for ecn_plus and ecn_plus wait flags
 	net->ipv4.sysctl_tcp_ecn_plus = 2;
 	net->ipv4.sysctl_tcp_ecn_plus_wait = 2;
