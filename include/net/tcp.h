@@ -363,6 +363,13 @@ static inline void tcp_dec_quickack_mode(struct sock *sk,
 #define	TCP_ECN_DEMAND_CWR	4
 #define	TCP_ECN_SEEN		8
 
+// GURU_WAS_HERE
+// These flags are used in tcp_sock->ecn_flags
+// which is a 8 bit field. Adding two more flags
+// for ECN+ and ECN+/WAIT is alright.
+#define TCP_ECN_PLUS_OK		16
+#define TCP_ECN_PLUS_WAIT_OK	32
+
 enum tcp_tw_status {
 	TCP_TW_SUCCESS = 0,
 	TCP_TW_RST = 1,
