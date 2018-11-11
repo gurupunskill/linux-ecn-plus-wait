@@ -346,9 +346,11 @@ static void tcp_ecn_send_syn(struct sock *sk, struct sk_buff *skb)
 		tp->ecn_flags = TCP_ECN_OK;
 
 		if(use_ecn_plus) 
-			tp->ecn_flags |= TCP_ECN_PLUS_OK
-		if(use_ecn_plus_wait)
-			tp->ecn_flags |= TCP_ECN_PLUS_WAIT_OK
+			tp->ecn_flags |= TCP_ECN_PLUS_OK;
+		if(use_ecn_plus_wait) {
+			tp->ecn_flags |= TCP_ECN_PLUS_OK;
+			tp->ecn_flags |= TCP_ECN_PLUS_WAIT_OK;
+		}
 
 		if (tcp_ca_needs_ecn(sk) || bpf_needs_ecn)
 			INET_ECN_xmit(sk);
