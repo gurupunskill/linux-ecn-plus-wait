@@ -92,6 +92,7 @@ struct netns_ipv4 {
 
 	struct local_ports ip_local_ports;
 
+	// GURU_WAS_HERE
 	// Adding flags for ECN+ and ECN+/Wait
 
 	int sysctl_tcp_ecn_plus;
