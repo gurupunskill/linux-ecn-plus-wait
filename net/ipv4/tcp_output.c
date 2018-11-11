@@ -313,8 +313,8 @@ static void tcp_ecn_send_synack(struct sock *sk, struct sk_buff *skb)
 	TCP_SKB_CB(skb)->tcp_flags &= ~TCPHDR_CWR;
 	if (!(tp->ecn_flags & TCP_ECN_OK))
 		TCP_SKB_CB(skb)->tcp_flags &= ~TCPHDR_ECE;
-	else if (tcp_ca_needs_ecn(sk) ||
-		 tcp_bpf_ca_needs_ecn(sk))
+	else if ((tp->ecn_flags & TCP_ECN_PLUS_OK) || tcp_ca_needs_ecn(sk) 
+		|| tcp_bpf_ca_needs_ecn(sk))
 		INET_ECN_xmit(sk);
 }
 
@@ -329,7 +329,8 @@ static void tcp_ecn_send_syn(struct sock *sk, struct sk_buff *skb)
 	// GURU_WAS_HERE
 	// Added control code for ecn plus
 	bool use_ecn_plus = sock_net(sk)->ipv4.sysctl_tcp_ecn_plus == 1;
-	bool use_ecn_plus_wait = sock_net(sk)->ipv4.sysctl_tcp_ecn_plus_wait == 1;
+	bool use_ecn_plus_wait = 
+		sock_net(sk)->ipv4.sysctl_tcp_ecn_plus_wait == 1;
 
 	if (!(use_ecn || use_ecn_plus || use_ecn_plus_wait)) {
 		const struct dst_entry *dst = __sk_dst_get(sk);
@@ -348,7 +349,7 @@ static void tcp_ecn_send_syn(struct sock *sk, struct sk_buff *skb)
 			tp->ecn_flags |= TCP_ECN_PLUS_OK
 		if(use_ecn_plus_wait)
 			tp->ecn_flags |= TCP_ECN_PLUS_WAIT_OK
-			
+
 		if (tcp_ca_needs_ecn(sk) || bpf_needs_ecn)
 			INET_ECN_xmit(sk);
 	}
